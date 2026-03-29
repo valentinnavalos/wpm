@@ -53,6 +53,8 @@ export let goal_awpm = actual_awpm;
 export let goal_lpm = actual_lpm;
 export let goal_acc = actual_acc;
 export let goal_time = startTime;
+export let goal_totalCorrectChars = 0;
+export let goal_totalIncorrectChars = 0;
 export let goalCompletedBlocks = completedBlocks;
 export let lastChallenge = "";
 export let blockNamesString = [];
@@ -283,6 +285,8 @@ const gameScene = (params) => {
         goal_acc = actual_acc;
         goal_time = startTime;
         goalCompletedBlocks = completedBlocks;
+        goal_totalCorrectChars = totalCorrectChars;
+        goal_totalIncorrectChars = totalIcorrectCorrectChars;
     }
 
     function resetGameStats() {

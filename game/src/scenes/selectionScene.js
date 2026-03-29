@@ -6,6 +6,7 @@ import {
 import { getMute, saveMute } from "../systems/preferences.js";
 import { resizablePos } from "../components/resizablePos.js";
 import { k } from "../kaplay.js";
+import { LEADERBOARD_URL, GITHUB_URL } from "../constants.js";
 export const settings = {
     mute: false,
     practiceMode: false,
@@ -94,6 +95,7 @@ k.scene("selection", () => {
     const selecttext2 = k.add([k.anchor("left"), k.text("", { size: fontsize }), resizablePos(() => k.vec2(buttonLeftX, buttonTopY + buttonGap)), k.opacity(1), k.z(21)]);
     const selecttext3 = k.add([k.anchor("left"), k.text("", { size: fontsize }), resizablePos(() => k.vec2(buttonLeftX, buttonTopY + buttonGap * 2)), k.opacity(1), k.z(21)]);
     const selecttext4 = k.add([k.anchor("left"), k.text("", { size: fontsize }), resizablePos(() => k.vec2(buttonLeftX + 250, buttonTopY + buttonGap)), k.opacity(1), k.z(21)]);
+    const selecttext5 = k.add([k.anchor("left"), k.text("", { size: fontsize }), resizablePos(() => k.vec2(buttonLeftX, buttonTopY + buttonGap * 3)), k.opacity(1), k.z(21)]);
 
     const button_muteON = k.add([
         k.sprite("muteON"),
@@ -123,7 +125,7 @@ k.scene("selection", () => {
     function updateStageCommands() {
         switch (stage) {
             case 0:
-                commands = ["about", "github", "start"];
+                commands = ["about", "github", "leaderboard", "start"];
                 break;
             case 1:
                 commands = ["yes", "no"];
@@ -143,6 +145,8 @@ k.scene("selection", () => {
         selecttext3.text = commands[1];
         if (stage === 2) selecttext4.text = commands[2];
         else selecttext4.text = "";
+        if (stage === 0) selecttext5.text = commands[2];
+        else selecttext5.text = "";
 
         updateTextColors();
     }
@@ -217,6 +221,8 @@ k.scene("selection", () => {
         selecttext.color = k.rgb(255, 255, 255);
         selecttext2.color = k.rgb(255, 255, 255);
         selecttext3.color = k.rgb(255, 255, 255);
+        selecttext4.color = k.rgb(255, 255, 255);
+        selecttext5.color = k.rgb(255, 255, 255);
 
         const cmdLower = targetText.toLowerCase();
         let commandList;
@@ -226,7 +232,8 @@ k.scene("selection", () => {
                 commandList = [
                     { obj: selecttext, label: "start" },
                     { obj: selecttext2, label: "about" },
-                    { obj: selecttext3, label: "github" }
+                    { obj: selecttext3, label: "github" },
+                    { obj: selecttext5, label: "leaderboard" }
                 ];
                 break;
             case 1:
@@ -386,9 +393,15 @@ k.scene("selection", () => {
                     }
                 }
                 break;
+            case "leaderboard":
+                if (stage === 0) {
+                    window.open(LEADERBOARD_URL);
+                    ResetGame();
+                }
+                break;  
             case "github":
                 if (stage === 0) {
-                    window.open("https://github.com/conanbatt/wpm", "_blank");
+                    window.open(GITHUB_URL, "_blank");
                     ResetGame();
                 }
                 break;
@@ -432,6 +445,13 @@ k.scene("selection", () => {
                 if (stage === 3) {
                     window.removeEventListener("keydown", handleKeydown);
                     setCapsLockActive(settings.isCapsOn);
+                    const session_i = window.__WPM_SESSION__;
+                    if (session_i) {
+                        window.parent.postMessage({
+                            type: "WPM_GAME_START",
+                            payload: { language: settings.language },
+                        }, "*");
+                    }
                     k.go("game");
                 }
                 break;

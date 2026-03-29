@@ -1,5 +1,5 @@
 import { k } from "../kaplay";
-import { goal_acc, goal_lpm, goal_wpm, goal_awpm, goalCompletedBlocks, lastChallenge, blockNamesString, goal_time } from "./game.js";
+import { goal_acc, goal_lpm, goal_wpm, goal_awpm, goalCompletedBlocks, lastChallenge, blockNamesString, goal_time, goal_totalCorrectChars, goal_totalIncorrectChars } from "./game.js";
 import { savePlay, getPlay, } from "../systems/saves.js";
 import { saveMute } from "../systems/preferences.js";
 import { settings } from "./selectionScene.js";
@@ -15,6 +15,26 @@ k.scene("endgame", () => {
   let lpm = parseFloat((goal_lpm || 0).toFixed(0));
   let acc = parseFloat((goal_acc || 0).toFixed(0));
   let awpm = parseFloat((goal_awpm || 0).toFixed(0));
+
+  if (!settings.practiceMode) {
+    window.parent.postMessage({
+      type: "WPM_GAME_OVER",
+      payload: {
+        wpm:         wpm,
+        chars_typed: goal_totalCorrectChars,
+        errors:      goal_totalIncorrectChars,
+        blocks:      record_blocks,
+      },
+    }, "*");
+  }
+
+  // Show rank once the server responds
+  setTimeout(() => {
+    const result = window.__WPM_LAST_RESULT__;
+    if (result?.rank) {
+      // result.rank available for future use
+    }
+  }, 1500);
 
   const saved = getPlay() || {};
   const best_wpm = Math.max(parseFloat(saved.bestWpm) || 0, wpm);
