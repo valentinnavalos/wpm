@@ -34,7 +34,7 @@ const AVATAR_STYLE = {
 const DROPDOWN_STYLE = {
   position: "absolute" as const,
   top: 46,
-  left: 0,
+  right: 0,
   background: "#000",
   border: "1px solid #03ff57",
   padding: "4px 0",
@@ -136,7 +136,7 @@ export default function Home() {
   return (
     <>
       {status !== "loading" && (
-        <div style={{ position: "fixed", top: 10, left: 10, zIndex: 1000 }}>
+        <div style={{ position: "fixed", top: 10, right: 10, zIndex: 1000 }}>
           {!session ? (
             <button onClick={() => signIn("github")} style={BUTTON_STYLE}>
               Login with GitHub

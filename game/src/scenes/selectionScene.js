@@ -104,22 +104,6 @@ k.scene("selection", () => {
     const selecttext4 = k.add([k.anchor("left"), k.text("", { size: fontsize }), resizablePos(() => k.vec2(buttonLeftX + 250, buttonTopY + buttonGap)), k.opacity(1), k.z(21)]);
     const selecttext5 = k.add([k.anchor("left"), k.text("", { size: fontsize }), resizablePos(() => k.vec2(buttonLeftX, buttonTopY + buttonGap * 3)), k.opacity(1), k.z(21)]);
 
-    const button_muteON = k.add([
-        k.sprite("muteON"),
-        k.pos(k.width() * 0.9, k.height() * 0 + 5),
-        k.opacity(1),
-        k.animate(),
-        k.z(50),
-    ]);
-    const button_muteOFF = k.add([
-        k.sprite("muteOff"),
-        k.pos(k.width() * 0.9, k.height() * 0 + 5),
-        k.opacity(0),
-        k.animate(),
-        k.z(50),
-    ]);
-    audioUpadte();
-
     const commandArrow = k.add([
         k.text("←", { size: 22 }),
         resizablePos(() => k.vec2(0, 0)),
@@ -287,8 +271,6 @@ k.scene("selection", () => {
 
     settings.mute = getMute();
     k.setVolume(settings.mute ? 0 : 0.5);
-    button_muteON.opacity = settings.mute ? 0 : 1;
-    button_muteOFF.opacity = settings.mute ? 1 : 0;
 
     const name = k.add([
         k.text("", { size: fontsize }),
@@ -305,11 +287,6 @@ k.scene("selection", () => {
         k.color(k.rgb(3, 255, 87)),
         k.z(21),
     ]);
-
-    function audioUpadte() {
-        button_muteON.opacity = settings.mute ? 0 : 1;
-        button_muteOFF.opacity = settings.mute ? 1 : 0;
-    }
 
     let previousInput = "";
     let lastErrorCount = 0;
@@ -434,7 +411,6 @@ k.scene("selection", () => {
                     settings.mute = false;
                     saveMute(false);
                     k.setVolume(0.5);
-                    audioUpadte();
                     advanceStage();
                 }
                 break;
@@ -443,7 +419,6 @@ k.scene("selection", () => {
                     settings.mute = true;
                     saveMute(true);
                     k.setVolume(0);
-                    audioUpadte();
                     advanceStage();
                 }
                 break;

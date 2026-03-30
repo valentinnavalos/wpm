@@ -394,21 +394,6 @@ const gameScene = (params) => {
         k.animate(),
         k.z(19),
     ]);
-    const button_muteON = k.add([
-        k.sprite("muteON"),
-        k.pos(k.width() * 0.9, k.height() * 0 + 5),
-        k.opacity(1),
-        k.animate(),
-        k.z(50),
-    ]);
-    const button_muteOFF = k.add([
-        k.sprite("muteOff"),
-        k.pos(k.width() * 0.9, k.height() * 0 + 5),
-        k.opacity(0),
-        k.animate(),
-        k.z(50),
-    ]);
-
     const languageIconMap = {
         javascript: "icon_02",
         ts: "icon_01",
@@ -458,16 +443,7 @@ const gameScene = (params) => {
         ]);
     });
 
-    if (settings.mute) {
-        button_muteON.opacity = 0;
-        button_muteOFF.opacity = 1;
-        updateMusicVolume();
-    }
-    else {
-        button_muteON.opacity = 1;
-        button_muteOFF.opacity = 0;
-        updateMusicVolume();
-    }
+    updateMusicVolume();
 
     k.onKeyPress(["escape"], () => {
         music.stop();

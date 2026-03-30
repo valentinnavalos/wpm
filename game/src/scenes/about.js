@@ -1,6 +1,5 @@
 import { k } from "../kaplay.js";
 import { resizablePos } from "../components/resizablePos.js";
-import { settings } from "./selectionScene.js";
 k.scene("about", () => {
     const blockWidth = k.width() * 0.8;
     const startX = (k.width() - blockWidth) / 2;
@@ -63,28 +62,6 @@ k.scene("about", () => {
     onKeyPress("escape", () => {
         k.go("selection");
     });
-    const button_muteON = k.add([
-        k.sprite("muteON"),
-        k.pos(k.width() * 0.9, k.height() * 0 + 5),
-        k.opacity(1),
-        k.animate(),
-        k.z(50),
-    ]);
-    const button_muteOFF = k.add([
-        k.sprite("muteOff"),
-        k.pos(k.width() * 0.9, k.height() * 0 + 5),
-        k.opacity(0),
-        k.animate(),
-        k.z(50),
-    ]);
-    if (settings.mute) {
-        button_muteON.opacity = 0;
-        button_muteOFF.opacity = 1;
-    }
-    else {
-        button_muteON.opacity = 1;
-        button_muteOFF.opacity = 0;
-    }
     const rest_text = k.add([
         k.text("ESC to return", { size: 20 }),
         resizablePos(() => k.vec2(k.width() * 0.5, k.height() * 0.94)),
