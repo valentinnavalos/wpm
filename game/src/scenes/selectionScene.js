@@ -19,15 +19,6 @@ function isMobile() {
         .test(navigator.userAgent);
 }
 k.scene("selection", () => {
-    k.loadSprite("icon_05", "/sprites/icon_05.png");
-    k.loadSprite("icon_04", "/sprites/icon_04.png");
-    k.loadSprite("icon_03", "/sprites/icon_03.png");
-    k.loadSprite("icon_02", "/sprites/icon_02.png");
-    k.loadSprite("icon_01", "/sprites/icon_01.png");
-    k.loadSprite("BG_WPM_IN_GAME", "/sprites/BG_WPM_IN_GAME.png");
-    k.loadSprite("BG_TIME_IN_GAME", "/sprites/BG_TIME_IN_GAME.png");
-    k.loadSprite("SilverDevs", "/sprites/SilverDev_logo.png");
-    k.loadMusic("videogame", "/sounds/videogame.mp3");
     let commands = [];
     const fontsize = 18;
     const boxWidth = 800;
