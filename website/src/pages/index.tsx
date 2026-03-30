@@ -1,6 +1,6 @@
 import Script from "next/script";
-import { useSession, signIn } from "next-auth/react";
-import { useEffect, useRef } from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { GameSession, GameResult, ExtendedUser } from "@src/types";
 
@@ -13,13 +13,14 @@ declare global {
 
 const BUTTON_STYLE = {
   cursor: "pointer",
-  padding: "6px 12px",
-  background: "#24292e",
-  color: "#fff",
-  border: "none",
-  borderRadius: 6,
-  fontSize: 14,
+  padding: "6px 14px",
+  background: "transparent",
+  color: "#03ff57",
+  border: "1px solid #03ff57",
+  borderRadius: 0,
+  fontSize: 13,
   fontFamily: "monospace",
+  letterSpacing: "0.05em",
 } as const;
 
 const AVATAR_STYLE = {
@@ -27,11 +28,34 @@ const AVATAR_STYLE = {
   width: 38,
   cursor: "pointer",
   display: "block",
+  border: "2px solid #03ff57",
+} as const;
+
+const DROPDOWN_STYLE = {
+  position: "absolute" as const,
+  top: 46,
+  left: 0,
+  background: "#000",
+  border: "1px solid #03ff57",
+  padding: "4px 0",
+  fontFamily: "monospace",
+  fontSize: 13,
+  zIndex: 1001,
+  minWidth: 130,
+} as const;
+
+const DROPDOWN_ITEM_STYLE = {
+  padding: "6px 14px",
+  cursor: "pointer",
+  color: "#fff",
+  display: "block",
+  whiteSpace: "nowrap" as const,
 } as const;
 
 export default function Home() {
   const { data: session, status } = useSession();
   const gameSessionId = useRef<string | null>(null);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     const user = session?.user as ExtendedUser | undefined;
@@ -112,13 +136,13 @@ export default function Home() {
   return (
     <>
       {status !== "loading" && (
-        <div style={{ position: "fixed", top: 10, right: 10, zIndex: 1000 }}>
+        <div style={{ position: "fixed", top: 10, left: 10, zIndex: 1000 }}>
           {!session ? (
             <button onClick={() => signIn("github")} style={BUTTON_STYLE}>
-              Login with GitHub to save score
+              Login with GitHub
             </button>
           ) : (
-            <a href="/leaderboard" title={`${session.user?.name} — View leaderboard`}>
+            <div style={{ position: "relative" }}>
               <Image
                 src={session.user?.image || "/default-avatar.png"}
                 alt={session.user?.name || "User avatar"}
@@ -126,8 +150,38 @@ export default function Home() {
                 height={38}
                 style={AVATAR_STYLE}
                 priority
+                onClick={() => setShowMenu((v) => !v)}
+                title={session.user?.name || ""}
               />
-            </a>
+              {showMenu && (
+                <>
+                  <div
+                    style={{
+                      position: "fixed",
+                      inset: 0,
+                      zIndex: 1000,
+                      background: "rgba(0,0,0,0.35)",
+                      backdropFilter: "blur(2px)",
+                    }}
+                    onClick={() => setShowMenu(false)}
+                  />
+                  <div style={DROPDOWN_STYLE}>
+                    <span
+                      style={DROPDOWN_ITEM_STYLE}
+                      onClick={() => { setShowMenu(false); window.location.href = "/leaderboard"; }}
+                    >
+                      leaderboard
+                    </span>
+                    <span
+                      style={{ ...DROPDOWN_ITEM_STYLE, color: "#ff4d4d" }}
+                      onClick={() => signOut()}
+                    >
+                      log out
+                    </span>
+                  </div>
+                </>
+              )}
+            </div>
           )}
         </div>
       )}

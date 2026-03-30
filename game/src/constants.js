@@ -39,6 +39,4 @@ export const gameState = {
 /**
  * URLs for the game
  */
-export const WEBSITE_URL = "http://localhost:3000";
-export const LEADERBOARD_URL = `${WEBSITE_URL}/leaderboard`;
 export const GITHUB_URL = "https://github.com/valentinnavalos/wpm";

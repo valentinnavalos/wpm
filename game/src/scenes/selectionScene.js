@@ -6,7 +6,7 @@ import {
 import { getMute, saveMute } from "../systems/preferences.js";
 import { resizablePos } from "../components/resizablePos.js";
 import { k } from "../kaplay.js";
-import { LEADERBOARD_URL, GITHUB_URL } from "../constants.js";
+import { GITHUB_URL } from "../constants.js";
 export const settings = {
     mute: false,
     practiceMode: false,
@@ -69,14 +69,14 @@ k.scene("selection", () => {
     }
     isMobile();
     k.add([
-        k.pos(boxCenterX, k.height() * 0.50),
+        k.pos(boxCenterX, k.height() * 0.53),
         k.anchor("center"),
         k.text("Get faster and better at technical interviewing", { size: 22 }),
         k.color(k.WHITE),
         k.z(21),
     ]);
     k.add([
-        k.pos(boxCenterX, k.height() * 0.55),
+        k.pos(boxCenterX, k.height() * 0.58),
         k.anchor("center"),
         k.text("by practicing typing code.", { size: 22 }),
         k.color(k.WHITE),
@@ -86,6 +86,13 @@ k.scene("selection", () => {
         k.sprite("WPM"),
         resizablePos(() => k.vec2(k.width() * 0.5, k.height() * 0.25)),
         k.anchor("center"),
+        k.z(18),
+    ]);
+    k.add([
+        k.pos(boxCenterX, k.height() * 0.41),
+        k.anchor("center"),
+        k.text("enhanced by Valentin Avalos", { size: 20 }),
+        k.color(k.rgb(160, 160, 160)),
         k.z(18),
     ]);
 
@@ -395,8 +402,7 @@ k.scene("selection", () => {
                 break;
             case "leaderboard":
                 if (stage === 0) {
-                    window.open(LEADERBOARD_URL);
-                    ResetGame();
+                    window.location.href = "/leaderboard";
                 }
                 break;  
             case "github":
