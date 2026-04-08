@@ -4,12 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Score } from "@src/types";
 
-const PERIODS = [
-  { key: "alltime", label: "All Time" },
-  { key: "monthly", label: "This Month" },
-  { key: "weekly", label: "This Week" },
-];
-
 const LANGUAGES = ["all", "javascript", "python", "golang"];
 
 const VIEWS: Record<string, string> = {
@@ -120,19 +114,6 @@ export default function Leaderboard({
           {error}
         </div>
       )}
-
-      {/* Period filters */}
-      <div style={STYLES.filterContainer}>
-        {PERIODS.map((p) => (
-          <button
-            key={p.key}
-            onClick={() => navigate({ period: p.key })}
-            style={STYLES.filterButton(period === p.key)}
-          >
-            {p.label}
-          </button>
-        ))}
-      </div>
 
       {/* Language filters */}
       <div style={{ ...STYLES.filterContainer, marginBottom: 24 }}>
